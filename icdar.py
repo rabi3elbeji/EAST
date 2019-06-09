@@ -14,7 +14,7 @@ import tensorflow as tf
 
 from data_util import GeneratorEnqueuer
 
-tf.app.flags.DEFINE_string('training_data_path', '/data/ocr/icdar2015/',
+tf.app.flags.DEFINE_string('training_data_path', 'data/train_data',
                            'training dataset to use')
 tf.app.flags.DEFINE_integer('max_image_large_side', 1280,
                             'max image size of training')
@@ -721,7 +721,7 @@ def generator(input_size=512, batch_size=32,
 
 def get_batch(num_workers, **kwargs):
     try:
-        enqueuer = GeneratorEnqueuer(generator(**kwargs), use_multiprocessing=True)
+        enqueuer = GeneratorEnqueuer(generator(**kwargs), use_multiprocessing=False)
         print('Generator use 10 batches for buffering, this may take a while, you can tune this yourself.')
         enqueuer.start(max_queue_size=10, workers=num_workers)
         generator_output = None
